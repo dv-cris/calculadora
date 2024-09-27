@@ -40,6 +40,7 @@
     teclasOp.forEach(function (tecla) {
         tecla.addEventListener('click', function (event) {
             const operacao = tecla.getAttribute('data-operacao');
+            if (resultado) tCE.click();
             if (!operador) {
                 displayForm.innerHTML += `${displayCalc.innerHTML}${operacao}`;
                 if (operadorAtual) { displayRes.innerHTML = calcular(operadorAtual); } else { displayRes.innerHTML = displayCalc.innerHTML }
@@ -77,7 +78,7 @@
         displayCalc.innerHTML = '';
         displayForm.innerHTML = '';
         displayRes.innerHTML = '';
-        operador = false;
+        operador = true;
         decimal = false
         operadorAtual = null;
         resultado = false;
@@ -118,11 +119,19 @@
             nMemoria = 0;
         }
         if (memoria.length == 0) nMemoria = null;
+        displayCalc.innerHTML = '';
+        displayForm.innerHTML = '';
+        displayRes.innerHTML = '';
+        operador = false;
+        decimal = false
+        operadorAtual = null;
+        resultado = false;
+
     });
 
 
     teclaMemoSub.addEventListener('click', function (event) {
-        memoria.splice(nMemoria, 1);
+        if (nMemoria == 0) memoria.splice(nMemoria, 1); else memoria.splice(nMemoria - 1, 1);
         if (memoria.length - 1 > memoria) nMemoria--;
         if (memoria.length == 0) nMemoria = null;
     });
@@ -131,12 +140,14 @@
             displayCalc.innerHTML = memoria[nMemoria];
             if (memoria.length - 1 > nMemoria) nMemoria++;
             else nMemoria = 0;
+            operador = false;
         }
     });
 
     teclaCopiar.addEventListener('click', function (event) {
         navigator.clipboard.writeText(displayRes.innerHTML);
-    })
+    });
+
 
     function calcular(operacao) {
         const valorPrimario = parseFloat(displayRes.innerHTML || 0);

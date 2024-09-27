@@ -1,11 +1,12 @@
 :root {
-    --background: #E2E3E9;
+    --background: #fdbb2d;
     --white: #fff;
     --danger: #f92672;
     --gray: #818181;
     --hover-dark: rgba(0, 0, 0, 0.1);
     --hover-white: rgba(255, 255, 255, 0.3);
 }
+
 
 *,
 *::before,
@@ -16,8 +17,6 @@
 }
 
 * {
-    font: inherit;
-    font-size: 100%;
     vertical-align: baseline;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -25,6 +24,11 @@
 button {
     background: none;
     border: none;
+}
+
+body {
+    color: var(--white);
+    background: rgb(0, 0, 0);
 }
 
 h1,
@@ -77,6 +81,25 @@ h6 {
     }
 }
 
+.calc {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    border: solid 1px var(--gray);
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 20%);
+}
+
+
+.bar-nome {
+    background-color: var(--background);
+    width: 100%;
+    padding: 0.625rem;
+}
+
 .titulo {
     display: block;
     width: 100%;
@@ -84,34 +107,13 @@ h6 {
     text-align: center;
 }
 
-.calc {
-    display: block;
-    width: 320px;
-    height: 100%;
-    background: var(--background);
-    border: 2px solid var(--gray);
-    padding: 0.156rem 0.312rem 0.625rem 0.312rem;
-    border-radius: 10px;
-}
-
-.bar-nome {
-    width: 100%;
-    padding: 0.625rem;
-    background: rgb(236, 236, 236);
-    border-radius: 10px;
-}
-
-.gap-top {
-    margin-top: 0.625rem;
-}
-
 .box-display {
     display: block;
     padding: 0.625rem;
     background: var(--white);
     height: 4.5rem;
-    border-radius: 10px;
     text-align: right;
+    background-color: hsl(0, 0%, 30%);
 }
 
 .display-form {
@@ -124,25 +126,33 @@ h6 {
 
 
 .font-red {
-    color: var(--danger)
+    color: var(--danger) !important;
+}
+
+.background {
+    background-color: var(--background) !important;
 }
 
 .box {
     display: flex;
     justify-content: space-between;
     justify-items: center;
-    padding: 0.625rem;
+    padding: 0.312rem;
 }
 
 .tecla {
     display: block;
     position: relative;
-    font-weight: 500;
-    border-radius: 5px;
-    padding: 0.625rem;
-    margin: 0.125rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    background: hsl(0, 0%, 30%);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-inline: 0.125rem;
     width: 25%;
-    border: 3px solid var(--gray);
+    /* border: 3px solid var(--gray); */
 }
 
 .tecla::after {
@@ -153,11 +163,26 @@ h6 {
     height: 100%;
     top: 0;
     left: 0;
+    border-radius: 10px;
     background-color: transparent;
-    border-radius: 3px;
-
 }
 
 .tecla:hover:after {
     background: var(--hover-dark);
+}
+
+.background::after {
+    display: block;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.background:hover::after {
+    background-color: var(--hover-white) !important;
 }
