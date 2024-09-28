@@ -2,18 +2,19 @@
     'use strict';
     const teclasVal = doc.querySelectorAll('[data-valor]');
     const teclasOp = doc.querySelectorAll('[data-operacao]');
-    const teclaRes = doc.querySelector('#t61');
+    const teclaRes = doc.querySelector('#tEqual');
     const teclaPorc = doc.querySelector('#t37');
     const displayCalc = doc.querySelector('#display-calc');
     const displayForm = doc.querySelector('#display-form');
     const displayRes = doc.querySelector('#display-res');
-    const tCE = doc.querySelector('#tce');
-    const tC = doc.querySelector('#tc');
-    const tBS = doc.querySelector('#t8');
+    const tCE = doc.querySelector('#tEscape');
+    const tC = doc.querySelector('#tDelete');
+    const tBS = doc.querySelector('#tBackspace');
     const teclaMemo = doc.querySelector('#tmemo');
     const teclaMemoPlus = doc.querySelector('#tmemoplus');
     const teclaMemoSub = doc.querySelector('#tmemosub');
     const teclaCopiar = doc.querySelector('#tcopy')
+    const tTroca = doc.querySelector('#tTroca');
     let memoria = [];
     let nMemoria = null;
     let operador = true;
@@ -42,7 +43,7 @@
             const operacao = tecla.getAttribute('data-operacao');
             if (resultado) tCE.click();
             if (!operador) {
-                displayForm.innerHTML += `${displayCalc.innerHTML}${operacao}`;
+                if (displayCalc.innerHTML.charAt(0) == '-') displayForm.innerHTML += `(${displayCalc.innerHTML})${operacao}`; else displayForm.innerHTML += `${displayCalc.innerHTML}${operacao}`;
                 if (operadorAtual) { displayRes.innerHTML = calcular(operadorAtual); } else { displayRes.innerHTML = displayCalc.innerHTML }
                 operadorAtual = operacao
                 displayCalc.innerHTML = '';
@@ -94,6 +95,11 @@
         if (displayCalc.innerHTML == '') { operador = true; }
         if (displayCalc.innerHTML.includes('.')) decimal = true;
     });
+
+    tTroca.addEventListener('click', function (event) {
+        displayCalc.innerHTML = -1 * parseFloat(displayCalc.innerHTML);
+    });
+
     teclaRes.addEventListener('click', function (event) {
         if (operadorAtual) {
             if ((operadorAtual == '^^' || operadorAtual == '^') && parseFloat(displayCalc.innerHTML) == 0) displayRes.innerHTML = calcular('+')
@@ -148,7 +154,32 @@
         navigator.clipboard.writeText(displayRes.innerHTML);
     });
 
+    doc.body.addEventListener('keypress', function (event) {
+        const key = event.keyCode || event.which;
+        const tecla = doc.querySelector(`#t${key}`);
+        if (tecla) tecla.click();
+    });
 
+    doc.body.addEventListener('keydown', function (event) {
+        const key = event.keyCode || event.which;
+        switch (key) {
+            case 187:
+            case 13:
+                teclaRes.click();
+                break;
+            case 8:
+                tBS.click();
+                break;
+            case 46:
+                tC.click();
+                break;
+            case 27:
+                tCE.click();
+                break;
+            default:
+                break;
+        }
+    })
     function calcular(operacao) {
         const valorPrimario = parseFloat(displayRes.innerHTML || 0);
         const valorSegundario = parseFloat(displayCalc.innerHTML || 0);
