@@ -124,6 +124,35 @@ h6 {
     text-overflow: ellipsis;
 }
 
+.display-memo {
+    display: block;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    background-color: hsl(0, 0%, 25%);
+    padding: 0.312rem;
+    transition: all 5s ease-in;
+}
+
+.display-memo.active {
+    height: 100%;
+    overflow: auto;
+    visibility: visible;
+}
+
+.memo {
+    display: inline-block;
+    position: relative;
+    margin-inline: 0.125rem;
+    padding: 0.125rem;
+    border: var(--gray) solid 1px;
+    border-radius: 5px;
+}
+
+.memo.active {
+    background-color: var(--danger);
+}
 
 .font-red {
     color: var(--danger) !important;

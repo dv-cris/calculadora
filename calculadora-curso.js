@@ -7,12 +7,14 @@
     const displayCalc = doc.querySelector('#display-calc');
     const displayForm = doc.querySelector('#display-form');
     const displayRes = doc.querySelector('#display-res');
+    const displayMemo = doc.querySelector('#display-memo');
     const tCE = doc.querySelector('#tEscape');
     const tC = doc.querySelector('#tDelete');
     const tBS = doc.querySelector('#tBackspace');
     const teclaMemo = doc.querySelector('#tmemo');
     const teclaMemoPlus = doc.querySelector('#tmemoplus');
     const teclaMemoSub = doc.querySelector('#tmemosub');
+    const teclaMemoList = doc.querySelector('#tmemolist');
     const teclaCopiar = doc.querySelector('#tcopy')
     const tTroca = doc.querySelector('#tTroca');
     let memoria = [];
@@ -128,28 +130,31 @@
         displayCalc.innerHTML = '';
         displayForm.innerHTML = '';
         displayRes.innerHTML = '';
-        operador = false;
+        operador = true;
         decimal = false
         operadorAtual = null;
         resultado = false;
-
+        memoList();
     });
-
-
     teclaMemoSub.addEventListener('click', function (event) {
         if (nMemoria == 0) memoria.splice(nMemoria, 1); else memoria.splice(nMemoria - 1, 1);
-        if (memoria.length - 1 > memoria) nMemoria--;
-        if (memoria.length == 0) nMemoria = null;
+        if (nMemoria > memoria.length - 1) nMemoria = memoria.length - 1; else if (nMemoria > 0) nMemoria--;
+        if (memoria.length < 0) nMemoria = null;
+        memoList();
     });
     teclaMemo.addEventListener('click', function (event) {
         if (nMemoria != null) {
             displayCalc.innerHTML = memoria[nMemoria];
+            memoList();
             if (memoria.length - 1 > nMemoria) nMemoria++;
             else nMemoria = 0;
             operador = false;
         }
     });
 
+    teclaMemoList.addEventListener('click', function (event) {
+        displayMemo.classList.toggle('active');
+    });
     teclaCopiar.addEventListener('click', function (event) {
         navigator.clipboard.writeText(displayRes.innerHTML);
     });
@@ -179,7 +184,18 @@
             default:
                 break;
         }
-    })
+    });
+
+    function memoList() {
+        displayMemo.innerHTML = '';
+        memoria.forEach(function (memo, index) {
+            const span = doc.createElement('span');
+            span.appendChild(doc.createTextNode(memo));
+            if (index == nMemoria) span.classList.add('active');
+            span.classList.add('memo');
+            displayMemo.appendChild(span);
+        });
+    }
     function calcular(operacao) {
         const valorPrimario = parseFloat(displayRes.innerHTML || 0);
         const valorSegundario = parseFloat(displayCalc.innerHTML || 0);
