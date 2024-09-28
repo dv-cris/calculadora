@@ -132,7 +132,7 @@ h6 {
     visibility: hidden;
     background-color: hsl(0, 0%, 25%);
     padding: 0.312rem;
-    transition: all 5s ease-in;
+    transition: all 1s ease-in;
 }
 
 .display-memo.active {
