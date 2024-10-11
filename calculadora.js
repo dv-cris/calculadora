@@ -209,10 +209,10 @@
             case '*':
                 return valorPrimario * valorSegundario;
             case '^':
-                return valorPrimario ** valorSegundario;
+                return Math.pow(valorPrimario, valorSegundario);
             case '^^':
                 displayForm.innerHTML = `${displayForm.innerHTML.slice(0, -1)}(1 / ${valorSegundario})`;
-                return (valorPrimario ** (1 / valorSegundario)).toFixed(3);
+                return Math.pow(valorPrimario, (1 / valorSegundario)).toFixed(3);
             default:
                 return 'Error'
         }
